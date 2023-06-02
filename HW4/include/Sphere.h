@@ -5,12 +5,15 @@
 #include "Object.h"
 
 //! For the purposes of demonstrating the BVH, a simple sphere
-class Sphere {
+class Sphere : public Object {
+public:
 	Vector3 center; // Center of the sphere
 	float r, r2; // Radius, Radius^2
 	
 	Sphere(const Vector3& center, float radius)
-	: center(center), r(radius), r2(radius*radius) { }
+	: center(center), r(radius), r2(radius*radius) {
+		setColor(Vector3(1.f, 0.f, 0.f));  // Red color
+	 }
 	
 	bool getIntersection(const Ray& ray, IntersectionInfo* I) const {
 		Vector3 s = center - ray.o;
@@ -41,6 +44,6 @@ class Sphere {
 		return center;
 	}
 	
-}
+};
 
 #endif

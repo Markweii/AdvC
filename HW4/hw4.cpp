@@ -4,6 +4,7 @@
 #include <iostream>
 #include "include/BVH.h"
 #include "include/Sphere.h"
+#include "include/Cube.h"
 #include "include/Vector3.h"
 
 using std::vector;
@@ -29,6 +30,12 @@ int main(int argc, char **argv) {
 	for(size_t i=0; i<N; ++i) {
 		objects.push_back(new Sphere(randVector3(), 0.05f));
 	}
+
+	// Create a Cube and add it to the objects list
+    Vector3 cubeCenter(0, 0, 0);  // Set the cube's center at the origin
+    Vector3 cubeSize(1, 1, 1);  // Cube's size is 1
+	printf("Constructing 1 spheres...\n");
+    objects.push_back(new Cube(cubeCenter, cubeSize));
 	
 	// Compute a BVH for this object set
 	BVH bvh(&objects);
@@ -69,8 +76,10 @@ int main(int argc, char **argv) {
  			} else {
 
  				// Just for fun, we'll make the color based on the normal
- 				const Vector3 normal = I.object->getNormal(I);
- 				const Vector3 color(fabs(normal.x), fabs(normal.y), fabs(normal.z));
+ 				// const Vector3 normal = I.object->getNormal(I);
+ 				// const Vector3 color(fabs(normal.x), fabs(normal.y), fabs(normal.z));
+				// const Vector3 color(1.f, 0.f, 0.f);  // Red color
+				const Vector3& color = I.object->getColor();
 
  				pixels[index  ] = color.x;
  				pixels[index+1] = color.y;
@@ -81,7 +90,7 @@ int main(int argc, char **argv) {
 
  	// Output image file (PPM Format)
  	printf("Writing out image file: \"render.ppm\"\n");
- 	FILE *image = fopen("render.ppm", "w");
+ 	FILE *image = fopen("render1.ppm", "w");
  	fprintf(image, "P6\n%d %d\n255\n", width, height);
  	for(size_t j=0; j<height; ++j) {
  		for(size_t i=0; i<width; ++i) {
